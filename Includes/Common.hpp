@@ -1,0 +1,188 @@
+#pragma once
+
+#include <Windows.h>
+#include <Macros.hpp>
+#include <Msvcrt.hpp>
+#include <Beacon.hpp>
+#include <Dnsapi.hpp>
+#include <Kernel32.hpp>
+#include <Iphlpapi.hpp>
+#include <Ntdll.hpp>
+#include <Netapi32.hpp>
+
+#define BUFFER_SIZE  8192
+#define print(...) Printf(__VA_ARGS__)
+D_SEC(".data") CHAR* Output = 0;
+D_SEC(".data") WORD  CurrentBufferSize = 0; 
+
+namespace Mem {
+    /**
+     * @brief Copies data from a source to a destination in memory.
+     * 
+     * @param Dest Pointer to the destination location.
+     * @param Src Pointer to the source data.
+     * @param Size Size in bytes to be copied.
+     * 
+     * @return T Returns the destination pointer.
+    */
+    template<typename S>
+    auto Copy(S Dest, const S Src, SIZE_T Size) -> S {
+        return static_cast<S>( __builtin_memcpy( Dest, Src, Size ) );
+    }
+
+    /**
+     * @brief Defines a specific value for a memory block.
+     *
+     * @param Dst Pointer to the destination memory block.
+     * @param Value Value to be set in each byte of the memory block.
+     * @param Size Size in bytes of the memory block.
+     * 
+     * @return S Returns the destination pointer.
+     */
+    template<typename S>
+    auto Set(S Dst, INT Value, SIZE_T Size) -> void {
+        __stosb( reinterpret_cast<PUCHAR>( Dst ), Value, Size );
+    }
+
+    /**
+     * @brief Allocates a block of memory from the heap.
+     * 
+     * @tparam T The type of the pointer to be allocated.
+     * @param Size The size of the memory block to allocate (in bytes).
+     * 
+     * @return T* Pointer to the allocated memory block, or NULL if allocation fails.
+     */
+    template<typename S>
+    auto Alloc(SIZE_T Size) -> S* {
+        return static_cast<S*>( HeapAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Size ) );
+    }
+    
+    /**
+     * @brief Reallocates a block of memory to a new size.
+     * 
+     * @tparam S The type of the pointer to be reallocated.
+     * @param Ptr Pointer to the memory block to be reallocated.
+     * @param NewSize The new size of the memory block (in bytes).
+     * 
+     * @return S* Pointer to the reallocated memory block, or NULL if reallocation fails.
+     */
+    template<typename S>
+    auto ReAlloc(S* Ptr, SIZE_T NewSize) -> S* {
+        return static_cast<S*>( HeapReAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Ptr, NewSize ) );
+    }
+
+    /**
+     * @brief Frees a block of memory previously allocated with `Alloc`.
+     * 
+     * @param Ptr Pointer to the memory block to be freed.
+     * 
+     * @return BOOL Returns TRUE if the memory was successfully freed, FALSE otherwise.
+     */
+    auto Free(PVOID Ptr) -> BOOL {
+        return HeapFree( GetProcessHeap(), 0x00, Ptr );
+    }
+};
+
+/**
+ * @brief Initializes the output buffer.
+ * 
+ * Allocates memory for the global output buffer and initializes `CurrentBufferSize` to 0.
+ * 
+ * @return INT Returns EXIT_SUCCESS on success.
+ */
+auto Start() -> INT {
+    Output = Mem::Alloc<char>( BUFFER_SIZE );
+    CurrentBufferSize = 0;
+    return EXIT_SUCCESS; 
+}
+
+/**
+ * @brief Sends the current contents of the output buffer to the beacon output.
+ * 
+ * @param Done If TRUE, the buffer is freed after sending its contents.
+ */
+auto PrintOutput(BOOL Done) -> void {
+    if ( CurrentBufferSize > 0 ) {
+        BeaconOutput( 0, Output, CurrentBufferSize );
+        CurrentBufferSize = 0;
+        Mem::Set( Output, 0, BUFFER_SIZE );
+    }
+
+    if ( Done ) {
+        Mem::Free( Output );
+    }
+}
+
+/**
+ * @brief Writes a formatted string to the output buffer.
+ * 
+ * If the buffer is full, it automatically flushes the current contents before continuing.
+ * 
+ * @param Format The format string (similar to printf).
+ * @param ... Arguments matching the placeholders in the format string.
+ */
+auto Printf(const char* Format, ...) -> void {
+    va_list Args;
+    va_start( Args, Format );
+
+    while ( TRUE ) {
+        INT Written = vsnprintf( Output + CurrentBufferSize, BUFFER_SIZE - CurrentBufferSize, Format, Args );
+
+        if ( Written < 0 ) { 
+            va_end( Args ); 
+            return;
+        }
+
+        if ( ( SIZE_T )Written + CurrentBufferSize >= BUFFER_SIZE ) {
+            PrintOutput( FALSE );
+        } else {
+            CurrentBufferSize += Written;
+            break;
+        }
+    }
+
+    va_end(Args);
+}
+
+/**
+ * @brief Converts a UTF-16 string (wchar_t*) to a UTF-8 string (char*).
+ * 
+ * @param Input Pointer to the wide string (UTF-16) to be converted.
+ * 
+ * @return PCHAR Pointer to the newly allocated UTF-8 string, or NULL on failure.
+ */
+auto WideToUtf8(CONST PWCHAR Input) -> PCHAR {
+    if ( IS_NULL( Input ) ) return NULL;
+
+    //
+    // Determine the required size for the UTF-8 string
+    //
+    INT Size = WideCharToMultiByte(
+        CP_UTF8, 0, Input, -1, NULL, 0, NULL, NULL
+    );
+
+    if ( Size <= 0 ) return NULL;
+
+    //
+    // Allocate memory for the UTF-8 string
+    //
+    PCHAR Str = static_cast<PCHAR>( Mem::Alloc<char>( Size ) );
+    if ( IS_NULL( Str ) ) return NULL;
+
+    //
+    // Perform the UTF-16 to UTF-8 conversion
+    //
+    INT Result = WideCharToMultiByte(
+        CP_UTF8, 0, Input, -1, Str, Size, NULL, NULL
+    );
+
+    if (Result <= 0) {
+        //
+        // Free allocated memory on failure
+        //
+        Mem::Free(Str);
+        return NULL;
+    }
+
+    return Str;
+}
