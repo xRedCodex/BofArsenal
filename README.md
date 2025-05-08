@@ -30,7 +30,7 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 
 1. Generate the build files using CMake:
 ```bash
-cmake -S . -B build
+cmake -B build -G "Unix Makefiles"  
 ```
 
 2. Compile all subprojects:
