@@ -65,7 +65,7 @@ namespace Mem {
      * @param Src Pointer to the source data.
      * @param Size Size in bytes to be copied.
      *
-     * @return T Returns the destination pointer.
+     * @return S Returns the destination pointer.
     */
     template<typename S>
     requires Ptr<S>
@@ -93,7 +93,7 @@ namespace Mem {
      *
      * @param Size The size of the memory block to allocate (in bytes).
      *
-     * @return T* Pointer to the allocated memory block, or NULL if allocation fails.
+     * @return S Pointer to the allocated memory block, or NULL if allocation fails.
      */
     template<typename S>
     requires Sized<S>
@@ -108,7 +108,7 @@ namespace Mem {
      * @param Ptr Pointer to the memory block to be reallocated.
      * @param NewSize The new size of the memory block (in bytes).
      *
-     * @return S* Pointer to the reallocated memory block, or NULL if reallocation fails.
+     * @return S Pointer to the reallocated memory block, or NULL if reallocation fails.
      */
     template<typename S>
     requires Ptr<S>
@@ -121,7 +121,7 @@ namespace Mem {
      *
      * @param Ptr Pointer to the memory block to be freed.
      *
-     * @return BOOL Returns TRUE if the memory was successfully freed, FALSE otherwise.
+     * @return Returns TRUE if the memory was successfully freed, FALSE otherwise.
      */
     inline auto Free(PVOID Ptr) -> BOOL {
         return HeapFree( GetProcessHeap(), 0x00, Ptr );
