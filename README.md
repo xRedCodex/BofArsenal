@@ -17,20 +17,12 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 
 ## Examples BOFS
 
-1. [**env**](/Generic/env)
-    - Retrieve and display environment variables of the target system.
-
-2. [**dnscache**](/Generic/dnscache)
-    - Enumerate and analyze the DNS cache entries on the target machine.
-
-3. [**ipconfig**](/Generic/ipconfig)
-    - Display detailed IP configuration and network adapter information.
-
-4. [**enumhandles**](/Generic/enumhandles)
-    - Enumerating file handles.
-
-5. [**routeprint**](/Generic/routeprint)
-    - Displays the system routing table.
+| Name     |  Description  |
+|----------|:-------------:|
+| **env** | Retrieve and display environment variables of the target system. |
+| **dnscache** | Enumerate and analyze the DNS cache entries on the target machine. |
+| **ipconfig** | Enumerating file handles. |
+| **routeprint** |  Displays the system routing table. |
 
 ## Build
 
