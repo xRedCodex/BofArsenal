@@ -1,31 +1,50 @@
 #pragma once
 
 #include <Windows.h>
-#include <Macros.hpp>
-#include <Msvcrt.hpp>
+#include <Externs.hpp>
 #include <Beacon.hpp>
-#include <Dnsapi.hpp>
-#include <Kernel32.hpp>
-#include <Iphlpapi.hpp>
-#include <Ntdll.hpp>
-#include <Netapi32.hpp>
 
 #define BUFFER_SIZE  8192
 #define print(...) Printf(__VA_ARGS__)
-D_SEC(".data") CHAR* Output = 0;
-D_SEC(".data") WORD  CurrentBufferSize = 0; 
+SEC_ATTR(".data") CHAR* Output = 0;
+SEC_ATTR(".data") WORD  CurrentBufferSize = 0;
+
+/**
+ * @brief Represents a type that can be dereferenced using the '*' operator.
+ *
+ * This typically includes raw pointers (e.g., T*) and types that overload operator*.
+ * Use this to constrain templates to pointer-like behavior without relying on the STL.
+ */
+template<typename T>
+concept Ptr = requires(T a) {
+    reinterpret_cast<void*>(a);
+};
+
+/**
+ * @brief Ensures the type is a complete object type with a defined size.
+ *
+ * This concept is satisfied only when the type `T` can be dereferenced and its size is known at compile time,
+ * which implies `T` must be a complete type (i.e., not forward-declared).
+ *
+ * Useful for memory allocation templates that require a known object layout.
+ */
+template<typename T>
+concept Sized = requires {
+    sizeof(*static_cast<T*>(nullptr));
+};
 
 namespace Mem {
     /**
      * @brief Copies data from a source to a destination in memory.
-     * 
+     *
      * @param Dest Pointer to the destination location.
      * @param Src Pointer to the source data.
      * @param Size Size in bytes to be copied.
-     * 
+     *
      * @return T Returns the destination pointer.
     */
     template<typename S>
+    requires Ptr<S>
     auto Copy(S Dest, const S Src, SIZE_T Size) -> S {
         return static_cast<S>( __builtin_memcpy( Dest, Src, Size ) );
     }
@@ -36,49 +55,51 @@ namespace Mem {
      * @param Dst Pointer to the destination memory block.
      * @param Value Value to be set in each byte of the memory block.
      * @param Size Size in bytes of the memory block.
-     * 
+     *
      * @return S Returns the destination pointer.
      */
     template<typename S>
-    auto Set(S Dst, INT Value, SIZE_T Size) -> void {
+    requires Ptr<S>
+    auto Set(S Dst, const INT Value, const SIZE_T Size) -> void {
         __stosb( reinterpret_cast<PUCHAR>( Dst ), Value, Size );
     }
 
     /**
      * @brief Allocates a block of memory from the heap.
-     * 
-     * @tparam T The type of the pointer to be allocated.
+     *
      * @param Size The size of the memory block to allocate (in bytes).
-     * 
+     *
      * @return T* Pointer to the allocated memory block, or NULL if allocation fails.
      */
     template<typename S>
-    auto Alloc(SIZE_T Size) -> S* {
-        return static_cast<S*>( HeapAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Size ) );
+    requires Sized<S>
+    auto Alloc(const SIZE_T Size) -> S {
+        return static_cast<S>( HeapAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Size ) );
     }
-    
+
     /**
      * @brief Reallocates a block of memory to a new size.
-     * 
+     *
      * @tparam S The type of the pointer to be reallocated.
      * @param Ptr Pointer to the memory block to be reallocated.
      * @param NewSize The new size of the memory block (in bytes).
-     * 
+     *
      * @return S* Pointer to the reallocated memory block, or NULL if reallocation fails.
      */
     template<typename S>
-    auto ReAlloc(S* Ptr, SIZE_T NewSize) -> S* {
-        return static_cast<S*>( HeapReAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Ptr, NewSize ) );
+    requires Ptr<S>
+    auto ReAlloc(S Ptr, const SIZE_T NewSize) -> S {
+        return static_cast<S>( HeapReAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, Ptr, NewSize ) );
     }
 
     /**
      * @brief Frees a block of memory previously allocated with `Alloc`.
-     * 
+     *
      * @param Ptr Pointer to the memory block to be freed.
-     * 
+     *
      * @return BOOL Returns TRUE if the memory was successfully freed, FALSE otherwise.
      */
-    auto Free(PVOID Ptr) -> BOOL {
+    inline auto Free(PVOID Ptr) -> BOOL {
         return HeapFree( GetProcessHeap(), 0x00, Ptr );
     }
 };
@@ -91,7 +112,7 @@ namespace Mem {
  * @return INT Returns EXIT_SUCCESS on success.
  */
 auto Start() -> INT {
-    Output = Mem::Alloc<char>( BUFFER_SIZE );
+    Output = Mem::Alloc<PCHAR>( BUFFER_SIZE );
     CurrentBufferSize = 0;
     return EXIT_SUCCESS; 
 }
@@ -166,7 +187,7 @@ auto WideToUtf8(CONST PWCHAR Input) -> PCHAR {
     //
     // Allocate memory for the UTF-8 string
     //
-    PCHAR Str = static_cast<PCHAR>( Mem::Alloc<char>( Size ) );
+    PCHAR Str = static_cast<PCHAR>( Mem::Alloc<PCHAR>( Size ) );
     if ( IS_NULL( Str ) ) return NULL;
 
     //

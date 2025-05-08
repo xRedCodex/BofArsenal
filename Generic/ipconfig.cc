@@ -14,7 +14,7 @@ auto Ipconfig(
     // Allocate memory for adapter information
     //
     ULONG OutputLen = sizeof( IP_ADAPTER_INFO ) * 32;
-    IP_ADAPTER_INFO* AdapterInfo = Mem::Alloc<IP_ADAPTER_INFO>( OutputLen );
+    IP_ADAPTER_INFO* AdapterInfo = Mem::Alloc<IP_ADAPTER_INFO*>( OutputLen );
     if ( IS_NULL( AdapterInfo ) ) {
         BeaconPrintf( CALLBACK_ERROR, "[-] Failed to allocate memory for IP_ADAPTER_INFO." );
         return;
@@ -34,7 +34,7 @@ auto Ipconfig(
     ULONG NetOutputLen = 0;
     FIXED_INFO* FixedInfo = NULL;
     if ( GetNetworkParams( FixedInfo, &NetOutputLen ) == ERROR_BUFFER_OVERFLOW ) {
-        FixedInfo = Mem::Alloc<FIXED_INFO>( NetOutputLen );
+        FixedInfo = Mem::Alloc<FIXED_INFO*>( NetOutputLen );
         if ( IS_NULL( FixedInfo ) ) {
             Mem::Free( AdapterInfo );
             return;

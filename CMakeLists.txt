@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(BOFArsenal)
 
 # Creates the main "build_all" target
@@ -19,7 +19,7 @@ foreach(MAKEFILE ${MAKEFILES})
     # Creates a custom target for each Makefile
     add_custom_target(
         ${TARGET_NAME}_build
-        COMMAND ${CMAKE_MAKE_PROGRAM} -C ${CMAKE_SOURCE_DIR}/${DIR}
+        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/${DIR} ${CMAKE_MAKE_PROGRAM}
         COMMENT "Building Makefile in ${DIR}"
     )
 

@@ -64,7 +64,7 @@ auto RoutePrint(
     // Get adapter info buffer size
     //
     if ( GetAdaptersInfo( NULL, &AdapterSize ) == ERROR_BUFFER_OVERFLOW ) {
-        AdapterInfo = Mem::Alloc<IP_ADAPTER_INFO>( AdapterSize );
+        AdapterInfo = Mem::Alloc<IP_ADAPTER_INFO*>( AdapterSize );
         if ( ! AdapterInfo ) return;
     }
 
@@ -72,7 +72,7 @@ auto RoutePrint(
     // Get IP forward table buffer size
     //
     if ( GetIpForwardTable( NULL, &ForwardSize, TRUE ) == ERROR_INSUFFICIENT_BUFFER ) {
-        IpForward = Mem::Alloc<MIB_IPFORWARDTABLE>( ForwardSize );
+        IpForward = Mem::Alloc<MIB_IPFORWARDTABLE*>( ForwardSize );
         if ( ! IpForward ) return;
     }
 
@@ -98,7 +98,10 @@ auto RoutePrint(
  * @param Argc Count of arguments passed to the program.
  */
 EXTERN_C 
-auto go(PCHAR Args, INT Argc) -> void {
+auto go(
+    _In_ PCHAR Args, 
+    _In_ INT   Argc
+) -> void {
     Start();
     return RoutePrint( Args, Argc );
 }

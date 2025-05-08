@@ -1,20 +1,10 @@
-# Directory where shared header files are located
 INCLUDES_DIR = ../Includes
-
-# Directory where source files (.cc) are located
 SRC_DIR = .
-
-# Directory where compiled files (.o) will be stored
 BUILD_DIR = build
-
-# List of all .cc files in the source directory
 SOURCES = $(wildcard $(SRC_DIR)/*.cc)
 
-# Compiler to be used
 CC = g++
-
-# Compiler flags:
-CFLAGS = -I$(INCLUDES_DIR) -Os -DBOF
+CFLAGS = -I$(INCLUDES_DIR) -Os -DBOF -std=c++23
 
 all: x64 x32
 
