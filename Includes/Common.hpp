@@ -167,34 +167,34 @@ auto Printf(const char* Format, ...) -> void {
 
 /**
  * @brief Converts a UTF-16 string (wchar_t*) to a UTF-8 string (char*).
- * 
+ *
  * @param Input Pointer to the wide string (UTF-16) to be converted.
- * 
- * @return PCHAR Pointer to the newly allocated UTF-8 string, or NULL on failure.
+ *
+ * @return Pointer to the newly allocated UTF-8 string, or NULL on failure.
  */
-auto WideToUtf8(CONST PWCHAR Input) -> PCHAR {
-    if ( IS_NULL( Input ) ) return NULL;
+inline auto WideToUtf8(const PWCHAR Input) -> PCHAR {
+    if (IS_NULL(Input)) return nullptr;
 
     //
     // Determine the required size for the UTF-8 string
     //
-    INT Size = WideCharToMultiByte(
-        CP_UTF8, 0, Input, -1, NULL, 0, NULL, NULL
+    const auto Size = WideCharToMultiByte(
+        CP_UTF8, 0, Input, -1, nullptr, 0, nullptr, nullptr
     );
 
-    if ( Size <= 0 ) return NULL;
+    if (Size <= 0) return nullptr;
 
     //
     // Allocate memory for the UTF-8 string
     //
-    PCHAR Str = static_cast<PCHAR>( Mem::Alloc<PCHAR>( Size ) );
-    if ( IS_NULL( Str ) ) return NULL;
+    const auto Str = static_cast<PCHAR>( Mem::Alloc<PCHAR>( Size ) );
+    if (IS_NULL(Str)) return nullptr;
 
     //
     // Perform the UTF-16 to UTF-8 conversion
     //
-    INT Result = WideCharToMultiByte(
-        CP_UTF8, 0, Input, -1, Str, Size, NULL, NULL
+    const auto Result = WideCharToMultiByte(
+        CP_UTF8, 0, Input, -1, Str, Size, nullptr, nullptr
     );
 
     if (Result <= 0) {
@@ -202,7 +202,7 @@ auto WideToUtf8(CONST PWCHAR Input) -> PCHAR {
         // Free allocated memory on failure
         //
         Mem::Free(Str);
-        return NULL;
+        return nullptr;
     }
 
     return Str;
