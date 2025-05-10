@@ -88,3 +88,7 @@ EXTERN_C {
 #define NtMapViewOfSection         NTDLL$NtMapViewOfSection
 #define NtUnmapViewOfSection       NTDLL$NtUnmapViewOfSection
 #define NtQueryInformationFile     NTDLL$NtQueryInformationFile
+
+#define CoCreateInstance           OLE32$CoCreateInstance
+#define CoInitializeEx             OLE32$CoInitializeEx
+#define CoUninitialize             OLE32$CoUninitialize
