@@ -15,7 +15,7 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
     * [Build all](#build-all)
 * [License](#license)
 
-## Examples BOFS
+## Generics
 
 | Name     |  Description  |
 |----------|:-------------:|
@@ -23,6 +23,11 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 | **dnscache** | Enumerate and analyze the DNS cache entries on the target machine. |
 | **ipconfig** | Enumerating file handles. |
 | **routeprint** |  Displays the system routing table. |
+
+## Jmp-Exec
+
+| Name     |  Description  |
+|----------|:-------------:|
 | **wsman** | executes the command in te remote machine via winrm
 
 ## Build
