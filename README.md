@@ -24,11 +24,14 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 | **ipconfig** | Enumerating file handles. |
 | **routeprint** |  Displays the system routing table. |
 
-## Jmp-Exec
+## Jmp-Exec (lateral moviment)
 
 | Name     |  Description  |
 |----------|:-------------:|
-| **wsman** | executes the command in te remote machine via winrm
+| **wsman** | executes the command in the remote machine via winrm |
+| **scm** | create service in the remote machine via open service control manager |
+| **wmi** | create the process in the remote machine via wmi |
+
 
 ## Build
 
