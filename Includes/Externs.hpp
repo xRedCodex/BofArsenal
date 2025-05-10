@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <lmaccess.h>
 #include <lmerr.h>
+#include <wsmandisp.h>
+#include <comdef.h>
+#include <combaseapi.h>
 #include <Native.hpp>
 
 EXTERN_C DECLSPEC_IMPORT INT WINAPI DNSAPI$DnsGetCacheDataTable(PVOID Data);
@@ -46,6 +49,10 @@ EXTERN_C {
     DFR(NTDLL, NtMapViewOfSection)
     DFR(NTDLL, NtUnmapViewOfSection)
     DFR(NTDLL, NtQueryInformationFile)
+
+    DFR(OLE32, CoCreateInstance)
+    DFR(OLE32, CoInitializeEx)
+    DFR(OLE32, CoUninitialize)
 }
 
 #define GetNetworkParams           IPHLPAPI$GetNetworkParams

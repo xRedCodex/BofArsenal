@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include <Externs.hpp>
 #include <Beacon.hpp>
 
