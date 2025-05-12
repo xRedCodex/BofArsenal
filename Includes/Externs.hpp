@@ -17,6 +17,7 @@ EXTERN_C {
     DFR(KERNEL32, LoadLibraryW)
     DFR(KERNEL32, VirtualProtect)
     DFR(KERNEL32, GetEnvironmentStringsW)
+    DFR(KERNEL32, GetModuleFileNameW)
     DFR(KERNEL32, FreeEnvironmentStringsW)
     DFR(KERNEL32, GetLastError)
     DFR(KERNEL32, GetProcessHeap)
@@ -25,9 +26,11 @@ EXTERN_C {
     DFR(KERNEL32, WideCharToMultiByte)
     DFR(KERNEL32, OpenProcess)
     DFR(KERNEL32, CreateFileA)
+    DFR(KERNEL32, CreateFileW)
     DFR(KERNEL32, HeapReAlloc)
     DFR(KERNEL32, QueryFullProcessImageNameA)
     DFR(KERNEL32, CloseHandle)
+    DFR(KERNEL32, SetFileInformationByHandle)
     
     DFR(IPHLPAPI, GetNetworkParams)
     DFR(IPHLPAPI, GetAdaptersInfo)
@@ -44,11 +47,17 @@ EXTERN_C {
 
     DFR(NETAPI32, NetUserAdd)
 
+    DFR(ADVAPI32, OpenSCManagerA);
+    DFR(ADVAPI32, CreateServiceA);
+    DFR(ADVAPI32, StartServiceA);
+    DFR(ADVAPI32, CloseServiceHandle);
+
     DFR(NTDLL, NtOpenSection)
     DFR(NTDLL, NtCreateSection)
     DFR(NTDLL, NtMapViewOfSection)
     DFR(NTDLL, NtUnmapViewOfSection)
     DFR(NTDLL, NtQueryInformationFile)
+    DFR(NTDLL, NtSetInformationProcess)
 
     DFR(OLE32, CoCreateInstance)
     DFR(OLE32, CoInitializeEx)
@@ -64,6 +73,7 @@ EXTERN_C {
 #define LoadLibraryW               KERNEL32$LoadLibraryW
 #define VirtualAlloc               KERNEL32$VirtualAlloc
 #define GetEnvironmentStringsW     KERNEL32$GetEnvironmentStringsW
+#define GetModuleFileNameW         KERNEL32$GetModuleFileNameW
 #define FreeEnvironmentStringsW    KERNEL32$FreeEnvironmentStringsW         
 #define GetLastError               KERNEL32$GetLastError
 #define GetProcessHeap             KERNEL32$GetProcessHeap
@@ -72,9 +82,16 @@ EXTERN_C {
 #define WideCharToMultiByte        KERNEL32$WideCharToMultiByte
 #define OpenProcess                KERNEL32$OpenProcess
 #define CreateFileA                KERNEL32$CreateFileA
+#define CreateFileW                KERNEL32$CreateFileW
 #define HeapReAlloc                KERNEL32$HeapReAlloc
 #define QueryFullProcessImageNameA KERNEL32$QueryFullProcessImageNameA
 #define CloseHandle                KERNEL32$CloseHandle
+#define SetFileInformationByHandle KERNEL32$SetFileInformationByHandle
+
+#define OpenSCManagerA             ADVAPI32$OpenSCManagerA   
+#define CreateServiceA             ADVAPI32$CreateServiceA
+#define StartServiceA              ADVAPI32$StartServiceA
+#define CloseServiceHandle         ADVAPI32$CloseServiceHandle
 
 #define wcscmp                     MSVCRT$wcscmp
 #define printf                     MSVCRT$printf
@@ -88,6 +105,7 @@ EXTERN_C {
 #define NtMapViewOfSection         NTDLL$NtMapViewOfSection
 #define NtUnmapViewOfSection       NTDLL$NtUnmapViewOfSection
 #define NtQueryInformationFile     NTDLL$NtQueryInformationFile
+#define NtSetInformationProcess    NTDLL$NtSetInformationProcess
 
 #define CoCreateInstance           OLE32$CoCreateInstance
 #define CoInitializeEx             OLE32$CoInitializeEx
