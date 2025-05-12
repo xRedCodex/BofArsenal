@@ -9,15 +9,18 @@ auto RmtSvcCreate(
     SC_HANDLE ScHandle  = NULL;
     SC_HANDLE SvcHandle = NULL;
 
+    // get the handle for Open Service Control Manager into the remote machine
     ScHandle = OpenSCManagerA( Host, nullptr, SC_MANAGER_ALL_ACCESS );
     if ( !ScHandle ) return;
 
+    // create the service using SCM handle and service binary path
     SvcHandle = CreateServiceA( 
         ScHandle, SvcName, nullptr, SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, 
         SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, nullptr, nullptr, 0, nullptr, nullptr, nullptr 
     );
     if ( !SvcHandle ) return;
 
+    // start the remote service
     if ( StartServiceA( SvcHandle, 0, nullptr ) ) {
         BeaconPrintf(CALLBACK_OUTPUT, "[+] Service started!");
     } else {
