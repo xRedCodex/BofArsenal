@@ -81,8 +81,10 @@ auto WsMan(
     // convert wchar response to char
     Str::WCharToChar( CharResponse, RawResponse, MAX_PATH );
 
+    // print response
     Printf( CharResponse );
 
+// clean up
 _WS_END:
     if ( Service      ) Service->Release();
     if ( WsManSess    ) WsManSess->Release();
