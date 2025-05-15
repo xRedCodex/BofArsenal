@@ -11,7 +11,7 @@ list(FILTER MAKEFILES EXCLUDE REGEX "^build/")
 # For each Makefile found
 foreach(MAKEFILE ${MAKEFILES})
     # Gets the directory of the Makefile
-    get_filename_component(DIR ${MAKEFILE} DIRECTORY)
+    get_filename_component(DIR ${MAKEFILE} Persistence)
 
     # Replaces slashes with underscores in target names
     string(REPLACE "/" "_" TARGET_NAME ${DIR})

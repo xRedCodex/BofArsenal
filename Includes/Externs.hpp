@@ -51,6 +51,8 @@ EXTERN_C {
     DFR(ADVAPI32, CreateServiceA);
     DFR(ADVAPI32, StartServiceA);
     DFR(ADVAPI32, CloseServiceHandle);
+    DFR(ADVAPI32, RegOpenKeyEx);
+    DFR(ADVAPI32, RegSetValueEx);
 
     DFR(NTDLL, NtOpenSection)
     DFR(NTDLL, NtCreateSection)
@@ -92,6 +94,8 @@ EXTERN_C {
 #define CreateServiceA             ADVAPI32$CreateServiceA
 #define StartServiceA              ADVAPI32$StartServiceA
 #define CloseServiceHandle         ADVAPI32$CloseServiceHandle
+#define RegOpenKeyEx               ADVAPI32$RegOpenKeyEx
+#define RegSetValueEx              ADVAPI32$RegSetValueEx
 
 #define wcscmp                     MSVCRT$wcscmp
 #define printf                     MSVCRT$printf
