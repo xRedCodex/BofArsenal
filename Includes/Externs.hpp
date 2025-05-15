@@ -64,6 +64,13 @@ EXTERN_C {
     DFR(OLE32, CoCreateInstance)
     DFR(OLE32, CoInitializeEx)
     DFR(OLE32, CoUninitialize)
+    DFR(OLE32, CLSIDFromString)
+    DFR(OLE32, IIDFromString)
+    DFR(OLE32, CoSetProxyBlanket)
+    DFR(OLE32, VariantInit)
+    DFR(OLE32, VariantClear)
+    DFR(OLE32, SysFreeString)
+    DFR(OLE32, SysAllocString)
 }
 
 #define GetNetworkParams           IPHLPAPI$GetNetworkParams
@@ -113,4 +120,10 @@ EXTERN_C {
 
 #define CoCreateInstance           OLE32$CoCreateInstance
 #define CoInitializeEx             OLE32$CoInitializeEx
-#define CoUninitialize             OLE32$CoUninitialize
+#define CLSIDFromString            OLE32$CLSIDFromString
+#define IIDFromString              OLE32$IIDFromString
+#define CoSetProxyBlanket          OLE32$CoSetProxyBlanket
+#define VariantInit                OLE32$VariantInit
+#define VariantClear               OLE32$VariantClear
+#define SysFreeString              OLE32$SysFreeString
+#define SysAllocString             OLE32$SysAllocString
