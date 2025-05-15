@@ -17,13 +17,14 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 
 ## Generics
 
-| Name           |                            Description                             |
-|----------------|:------------------------------------------------------------------:|
-| **env**        |  Retrieve and display environment variables of the target system.  |
-| **dnscache**   | Enumerate and analyze the DNS cache entries on the target machine. |
-| **ipconfig**   |                     Enumerating file handles.                      |
-| **routeprint** |                 Displays the system routing table.                 |  
-| **selfdelete** |               Self delete the agent file in the disk               |  
+| Name            |                                                              Description                                                               |
+|-----------------|:--------------------------------------------------------------------------------------------------------------------------------------:|
+| **env**         |                                    Retrieve and display environment variables of the target system.                                    |
+| **dnscache**    |                                   Enumerate and analyze the DNS cache entries on the target machine.                                   |
+| **enumhandles** |                                                       Enumerating file handles.                                                        | 
+| **ipconfig**    |                                   Display detailed IP configuration and network adapter information.                                   |
+| **routeprint**  |                                                   Displays the system routing table.                                                   |  
+| **selfdelete**  |                                                 Self delete the agent file in the disk                                                 |  
 
 ## Jmp-Exec (lateral moviment)
 
