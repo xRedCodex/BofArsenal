@@ -42,7 +42,7 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 
 | Name     |  Description  |
 |----------|:-------------:|
-| **autostart | Use registry to persist file execution in the machine start |
+| **autostart** | Use registry to persist file execution in the machine start |
 
 ## Build
 
