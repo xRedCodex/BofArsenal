@@ -1,13 +1,14 @@
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include <Macros.hpp>
 #include <iphlpapi.h>
 #include <stdio.h>
 #include <lmaccess.h>
 #include <lmerr.h>
 #include <wsmandisp.h>
-#include <comdef.h>
+// #include <comdef.h>
+#include <netfw.h>
 #include <combaseapi.h>
 #include <Native.hpp>
 
@@ -38,6 +39,8 @@ EXTERN_C {
     DFR(IPHLPAPI, GetNetworkParams)
     DFR(IPHLPAPI, GetAdaptersInfo)
     DFR(IPHLPAPI, GetIpForwardTable)
+
+    DFR(WS2_32, inet_ntoa)
     
     DFR(MSVCRT, printf)
     DFR(MSVCRT, wprintf)
@@ -51,8 +54,8 @@ EXTERN_C {
     DFR(ADVAPI32, CreateServiceA);
     DFR(ADVAPI32, StartServiceA);
     DFR(ADVAPI32, CloseServiceHandle);
-    DFR(ADVAPI32, RegOpenKeyEx);
-    DFR(ADVAPI32, RegSetValueEx);
+    DFR(ADVAPI32, RegOpenKeyExA);
+    DFR(ADVAPI32, RegSetValueExA);
 
     DFR(NTDLL, NtOpenSection)
     DFR(NTDLL, NtCreateSection)
@@ -60,6 +63,7 @@ EXTERN_C {
     DFR(NTDLL, NtUnmapViewOfSection)
     DFR(NTDLL, NtQueryInformationFile)
     DFR(NTDLL, NtSetInformationProcess)
+    DFR(NTDLL, NtQueryInformationProcess)
 
     DFR(OLE32, CoCreateInstance)
     DFR(OLE32, CoInitializeEx)
@@ -71,12 +75,24 @@ EXTERN_C {
     DFR(OLE32, VariantClear)
     DFR(OLE32, SysFreeString)
     DFR(OLE32, SysAllocString)
+
+    DFR(USER32, GetDC)
+    DFR(USER32, GetSystemMetrics)
+
+    DFR(GDI32, BitBlt)
+    DFR(GDI32, SelectObject)
+    DFR(GDI32, CreateDIBSection)
+    DFR(GDI32, CreateCompatibleDC)
+    DFR(GDI32, GetObjectW)
+    DFR(GDI32, GetCurrentObject)
 }
 
 #define GetNetworkParams           IPHLPAPI$GetNetworkParams
 #define GetAdaptersInfo            IPHLPAPI$GetAdaptersInfo
 #define GetIpForwardTable          IPHLPAPI$GetIpForwardTable
 #define DnsGetCacheDataTable       DNSAPI$DnsGetCacheDataTable
+
+#define inet_ntoa                  WS2_32$inet_ntoa
 
 #define VirtualProtect             KERNEL32$VirtualProtect
 #define LoadLibraryW               KERNEL32$LoadLibraryW
@@ -101,8 +117,8 @@ EXTERN_C {
 #define CreateServiceA             ADVAPI32$CreateServiceA
 #define StartServiceA              ADVAPI32$StartServiceA
 #define CloseServiceHandle         ADVAPI32$CloseServiceHandle
-#define RegOpenKeyEx               ADVAPI32$RegOpenKeyEx
-#define RegSetValueEx              ADVAPI32$RegSetValueEx
+#define RegOpenKeyExA              ADVAPI32$RegOpenKeyExA
+#define RegSetValueExA             ADVAPI32$RegSetValueExA
 
 #define wcscmp                     MSVCRT$wcscmp
 #define printf                     MSVCRT$printf
@@ -116,7 +132,18 @@ EXTERN_C {
 #define NtMapViewOfSection         NTDLL$NtMapViewOfSection
 #define NtUnmapViewOfSection       NTDLL$NtUnmapViewOfSection
 #define NtQueryInformationFile     NTDLL$NtQueryInformationFile
+#define NtQueryInformationProcess  NTDLL$NtQueryInformationProcess
 #define NtSetInformationProcess    NTDLL$NtSetInformationProcess
+
+#define GetDC                      USER32$GetDC
+#define GetSystemMetrics           USER32$GetSystemMetrics
+
+#define BitBlt                     GDI32$BitBlt
+#define SelectObject               GDI32$SelectObject
+#define CreateDIBSection           GDI32$CreateDIBSection
+#define CreateCompatibleDC         GDI32$CreateCompatibleDC
+#define GetObjectW                 GDI32$GetObjectW
+#define GetCurrentObject           GDI32$GetCurrentObject
 
 #define CoCreateInstance           OLE32$CoCreateInstance
 #define CoInitializeEx             OLE32$CoInitializeEx

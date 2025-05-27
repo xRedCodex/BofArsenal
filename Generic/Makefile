@@ -3,7 +3,7 @@ SRC_DIR = .
 BUILD_DIR = build
 SOURCES = $(wildcard $(SRC_DIR)/*.cc)
 
-CC = g++
+CC = x86_64-w64-mingw32-g++
 CFLAGS = -I$(INCLUDES_DIR) -Os -DBOF -std=c++23
 
 all: x64 x32

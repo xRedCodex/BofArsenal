@@ -24,7 +24,11 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 | **enumhandles** |                                                       Enumerating file handles.                                                        | 
 | **ipconfig**    |                                   Display detailed IP configuration and network adapter information.                                   |
 | **routeprint**  |                                                   Displays the system routing table.                                                   |  
-| **selfdelete**  |                                                 Self delete the agent file in the disk                                                 |  
+| **selfdelete**  |                                                 Self delete the agent file in the disk                                                 |
+| **screnshoot** | Take a screenshot and send to C2 |
+| **rmcallback**  | Remote the Instrumentation Callback     |
+| **getcallback** | Check if Instrumentation Callback is set | 
+| **firewalruleadd** | Add rule to firewall |
 
 ## Jmp-Exec (lateral moviment)
 
@@ -33,6 +37,12 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 | **wsman** | executes the command in the remote machine via winrm |
 | **scm** | create service in the remote machine via open service control manager |
 | **wmi** | create the process in the remote machine via wmi |
+
+## Persistence
+
+| Name     |  Description  |
+|----------|:-------------:|
+| **autostart | Use registry to persist file execution in the machine start |
 
 ## Build
 

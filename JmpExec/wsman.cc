@@ -31,11 +31,14 @@ auto WsMan(
     WCHAR Parameters[MAX_PATH*2];
 
     // allocating memory to winrm command response
-    PWCHAR RawResponse  = Mem::Alloc( BUFF_RETURN_LENGTH * 2 );
-    PCHAR  CharResponse = Mem::Alloc( BUFF_RETURN_LENGTH * 1 );
+    PWCHAR RawResponse  = Mem::Alloc<PWCHAR>( BUFF_RETURN_LENGTH * 2 );
+    PCHAR  CharResponse = Mem::Alloc<PCHAR>( BUFF_RETURN_LENGTH * 1 );
 
     // resource variant
-    VARIANT Resource      = (VARIANT)L"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_Process";
+    VARIANT Resource;
+    VariantInit( &Resource );
+    Resource.vt      = VT_BSTR;
+    Resource.bstrVal = SysAllocString(L"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_Process");
 
     // parameters to concat with the command
     BSTR    TmpParamBegin = L"<p:Create_INPUT xmlns:p=\"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_Process\"><p:CommandLine>";

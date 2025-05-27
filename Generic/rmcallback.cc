@@ -27,6 +27,7 @@ auto RmCallback( VOID ) -> VOID {
     BeaconPrintf( CALLBACK_OUTPUT, "[+] Process Instrumentation Callback Removed" ); 
 }
 
+EXTERN_C
 auto go(PCHAR Args, INT Argc) -> void {
     Start();
 
