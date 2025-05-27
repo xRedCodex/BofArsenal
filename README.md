@@ -34,9 +34,9 @@ The most extensive collection of BOFs (Beacon Object Files) tailored for Red Tea
 
 | Name     |  Description  |
 |----------|:-------------:|
-| **wsman** | executes the command in the remote machine via winrm |
-| **scm** | create service in the remote machine via open service control manager |
-| **wmi** | create the process in the remote machine via wmi |
+| **wsman** | Executes the command in the remote machine via winrm |
+| **scm** | Create service in the remote machine via open service control manager |
+| **wmi** | Create the process in the remote machine via wmi |
 
 ## Persistence
 
