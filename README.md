@@ -1,10 +1,10 @@
 # BOFArsenal
 
-![Rust](https://img.shields.io/badge/made%20with-C++-pink)
+![C++](https://img.shields.io/badge/made%20with-C++-pink)
 ![Platform](https://img.shields.io/badge/platform-windows-blueviolet)
-![Forks](https://img.shields.io/github/forks/joaoviictorti/BOFS)
-![Stars](https://img.shields.io/github/stars/joaoviictorti/BOFS)
-![License](https://img.shields.io/github/license/joaoviictorti/BOFS)
+![Forks](https://img.shields.io/github/forks/xRedCodex/BofArsenal)
+![Stars](https://img.shields.io/github/stars/xRedCodex/BofArsenal)
+![License](https://img.shields.io/github/license/xRedCodex/BofArsenal)
 
 The most extensive collection of BOFs (Beacon Object Files) tailored for Red Teams
 
